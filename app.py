@@ -12,9 +12,9 @@ import shap
 import matplotlib.pyplot as plt
 import base64
 from io import BytesIO
-import spacy, os
-from spacy.cli import download
-from spacy.util import set_data_path
+import re, string
+from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
+from nltk.stem import WordNetLemmatizer
 
 # Page configuration
 st.set_page_config(
@@ -95,47 +95,38 @@ def load_models():
 
 model, vectorizer = load_models()
 
-# Load spaCy
-@st.cache_resource
-def load_nlp():
-    try:
-        return spacy.load("en_core_web_sm")
-    except OSError:
-        st.error("🚫 spaCy model not found. Please install it with: python -m spacy download en_core_web_sm")
-        return None
-
-# Point spaCy at a local folder in your repo
-local_data_dir = os.path.join(os.getcwd(), "spacy_data")
-os.makedirs(local_data_dir, exist_ok=True)
-set_data_path(local_data_dir)
-
-try:
-    # Try loading from local_data_dir
-    nlp = spacy.load("en_core_web_sm")
-except OSError:
-    # Download into local_data_dir
-    download("en_core_web_sm", target=local_data_dir)
-    nlp = spacy.load("en_core_web_sm")
+# Download NLTK resources (they install into a writable cache)
+nltk.download('wordnet')
+nltk.download('omw-1.4')
 stop_words = set(ENGLISH_STOP_WORDS)
+lemmatizer = WordNetLemmatizer()
 
-# Function to preprocess text
+ Function to preprocess text
 def preprocess_text(text):
     if pd.isnull(text) or not isinstance(text, str):
         return ""
-
+    
+    # Lowercase
     text = text.lower()
+    # Remove URLs
     text = re.sub(r"http\S+|www\S+|https\S+", '', text)
+    # Remove numbers
     text = re.sub(r'\d+', '', text)
+    # Remove punctuation
     text = text.translate(str.maketrans('', '', string.punctuation))
+    # Strip whitespace
     text = text.strip()
-
-    if nlp:
-        doc = nlp(text)
-        tokens = [token.lemma_ for token in doc if token.text not in stop_words and not token.is_punct and not token.is_space]
-        return ' '.join(tokens)
-    else:
-        return text
-
+    
+    # Tokenize (whitespace split)
+    tokens = text.split()
+    # Remove stopwords and lemmatize
+    processed_tokens = [
+        lemmatizer.lemmatize(token) 
+        for token in tokens 
+        if token not in stop_words
+    ]
+    return ' '.join(processed_tokens)
+    
 # Initialize LIME Explainer
 explainer = LimeTextExplainer(class_names=["Negative", "Positive"])
 
