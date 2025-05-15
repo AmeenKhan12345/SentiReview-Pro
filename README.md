@@ -1,6 +1,6 @@
 # Sentiment Analysis of Product Reviews with Explainable AI (XAI)
 
-**A Streamlit web app that classifies Amazon product reviews into Positive and Negative sentiments using TF-IDF + SVM, with explainability via LIME and SHAP.**
+**A Streamlit web app that classifies product reviews into Positive and Negative sentiments using TF-IDF + SVM, with explainability via LIME and SHAP.**
 
 ---
 
