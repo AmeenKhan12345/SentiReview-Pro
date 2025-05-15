@@ -51,8 +51,6 @@
 ```plaintext
 repo-root/
 ├── app.py                    # Streamlit application script
-├── product_reviews_train.csv # Training dataset (CSV)
-├── product_reviews_test.csv  # Test dataset (CSV)
 ├── svm_sentiment_model.pkl   # Trained SVM model
 ├── tfidf_vectorizer.pkl      # TF-IDF vectorizer
 ├── requirements.txt          # Python dependencies
@@ -66,8 +64,8 @@ repo-root/
 1. **Clone the repository**:
 
    ```bash
-   git clone https://github.com/your-user/your-repo.git
-   cd your-repo
+   git clone https://github.com/AmeenKhan12345/SentiReview-Pro.git
+   cd SentiReview-Pro
    ```
 
 2. **Create a virtual environment (optional but recommended)**:
