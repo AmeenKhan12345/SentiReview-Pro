@@ -101,7 +101,13 @@ def load_nlp():
         st.error("🚫 spaCy model not found. Please install it with: python -m spacy download en_core_web_sm")
         return None
 
-nlp = load_nlp()
+try:
+    nlp = spacy.load("en_core_web_sm")
+except OSError:
+    # Download and load if not found
+    from spacy.cli import download
+    download("en_core_web_sm")
+    nlp = spacy.load("en_core_web_sm")
 stop_words = set(ENGLISH_STOP_WORDS)
 
 # Function to preprocess text
