@@ -101,7 +101,7 @@ nltk.download('omw-1.4')
 stop_words = set(ENGLISH_STOP_WORDS)
 lemmatizer = WordNetLemmatizer()
 
- Function to preprocess text
+#Function to preprocess text
 def preprocess_text(text):
     if pd.isnull(text) or not isinstance(text, str):
         return ""
