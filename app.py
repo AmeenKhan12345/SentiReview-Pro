@@ -255,7 +255,7 @@ with tab1:
     
     if analyze_button and review:
         with st.spinner("Analyzing your review..."):
-            if model and vectorizer and nlp:
+            if model and vectorizer:
                 review_clean = preprocess_text(review)
                 review_vec = vectorizer.transform([review_clean])
                 y_probs = model.decision_function(review_vec)
