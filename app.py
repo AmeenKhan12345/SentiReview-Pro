@@ -12,6 +12,9 @@ import shap
 import matplotlib.pyplot as plt
 import base64
 from io import BytesIO
+import spacy, os
+from spacy.cli import download
+from spacy.util import set_data_path
 
 # Page configuration
 st.set_page_config(
@@ -101,12 +104,17 @@ def load_nlp():
         st.error("🚫 spaCy model not found. Please install it with: python -m spacy download en_core_web_sm")
         return None
 
+# Point spaCy at a local folder in your repo
+local_data_dir = os.path.join(os.getcwd(), "spacy_data")
+os.makedirs(local_data_dir, exist_ok=True)
+set_data_path(local_data_dir)
+
 try:
+    # Try loading from local_data_dir
     nlp = spacy.load("en_core_web_sm")
 except OSError:
-    # Download and load if not found
-    from spacy.cli import download
-    download("en_core_web_sm")
+    # Download into local_data_dir
+    download("en_core_web_sm", target=local_data_dir)
     nlp = spacy.load("en_core_web_sm")
 stop_words = set(ENGLISH_STOP_WORDS)
 
