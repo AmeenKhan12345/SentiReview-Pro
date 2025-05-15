@@ -12,7 +12,7 @@ import shap
 import matplotlib.pyplot as plt
 import base64
 from io import BytesIO
-import re, string
+import nltk
 from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
 from nltk.stem import WordNetLemmatizer
 
