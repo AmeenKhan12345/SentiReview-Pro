@@ -6,7 +6,7 @@
 
 ## 🚀 Live Demo
 
-[Streamlit App URL](https://share.streamlit.io/your-user/your-repo/app.py)
+[Live App](https://sentireview-pro-onlyforyou.streamlit.app/)
 
 ---
 
